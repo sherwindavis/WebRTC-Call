@@ -11,8 +11,8 @@ body{
   width: 30px;
   cursor: pointer;
 }
-@font-face { font-family: Logo; src: url('./resources/Warheed-X3Grd.ttf') format('truetype') ; }
-@font-face { font-family: NF; src: url('./resources/Spantaran-GE2D.ttf') format('truetype') ; }
+@font-face { font-family: Logo; src: url('./resources/Warheed-X3Grd.ttf') format('truetype'); }
+@font-face { font-family: NF; src: url('./resources/Spantaran-GE2D.ttf') format('truetype'); }
 #logo{
   position: absolute;
   font-family: Logo;
@@ -51,12 +51,19 @@ display:none;
     bottom: 12vh;
     left: 1vh;
     border-radius: 2vh;
-    background: rgb(255, 255, 255);
+    background-image: url("./resources/account_circle_white_48dp.svg");
+    background-color: #121212;
+    background-repeat:no-repeat;
+    background-position: center center;
     max-height: 20vh;
     max-width: 20vw;
 }
 #remote-video{
-    background-color: rgb(255, 255, 255);
+    
+    background-image: url("./resources/account_circle_white_48dp.svg");
+    background-color: #121212;
+    background-repeat:no-repeat;
+    background-position: center center;
     width: 100vw;
     height: 90vh;
     
