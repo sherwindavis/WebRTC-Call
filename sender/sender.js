@@ -14,7 +14,7 @@ let localStream
 
 function startCall(){
 document.getElementById("video-call-div").style.display="inline";
-navigator.mediaDevices.getUserMedia({
+navigator.getUserMedia({
     video:{
         frameRate:30,
         width:{
