@@ -11,8 +11,8 @@ body{
   width: 30px;
   cursor: pointer;
 }
-@font-face { font-family: Logo; src: url('/resources/Warheed-X3Grd.ttf'); }
-@font-face { font-family: NF; src: url('/resources/Spantaran-GE2D.ttf'); }
+@font-face { font-family: Logo; src: url('../resources/Warheed-X3Grd.ttf'); }
+@font-face { font-family: NF; src: url('../resources/Spantaran-GE2D.ttf'); }
 #logo{
   position: absolute;
   font-family: Logo;
@@ -45,12 +45,6 @@ display:none;
     height: 60vh;
     right :35vw;
     bottom: 20vh;
-      border: double 0px transparent;
-  border-radius: 8px;
-  background-image: linear-gradient(#121212, #121212), 
-  linear-gradient(to right, #ee0979 0%, #ff6a00  51%, #ee0979  100%);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
 }
 #local-video{
     position: absolute;
