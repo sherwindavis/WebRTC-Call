@@ -11,8 +11,8 @@ body{
   width: 30px;
   cursor: pointer;
 }
-@font-face { font-family: Logo; src: url('../resources/Warheed-X3Grd.ttf'); }
-@font-face { font-family: NF; src: url('../resources/Spantaran-GE2D.ttf'); }
+@font-face { font-family: Logo; src: url('../resources/Warheed-X3Grd.ttf') format('truetype') ; }
+@font-face { font-family: NF; src: url('../resources/Spantaran-GE2D.ttf') format('truetype') ; }
 #logo{
   position: absolute;
   font-family: Logo;
