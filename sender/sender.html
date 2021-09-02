@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC</title>
+    <link rel="icon" href="../favico.png" type="image/icon type">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div id="logo">WebRTC Call</div>
+    <img src="../resources/github-11-48.png" alt="" id="git" ></img>
+    <div id="login">
+        <div id = "signin">Signin</div>
+        <input placeholder="Enter ID" type="text" id="username-input"/><br>
+        <button onclick="sendusername()" class="btn-grad">Send</button>
+        <button onclick="startCall();openFullscreen()"class="btn-grad2">Start Call</button>
+    </div>
+    <div id="video-call-div">
+        <video id="local-video" autoplay></video>
+        <video id="remote-video" autoplay></video>
+        <div class="call-action-div">
+            <img src="/resources/mute.svg" onclick="muteaudio()"id="muteaudio" alt="Mute Audio"></img>
+            <img src="/resources/cam.svg" onclick="mutevideo()" id="cam" alt="Mute Video"></img>
+            <img src="/resources/screen_share_white_48dp.svg" onclick="screenshare()" id="cam" alt="screenshare"></img>
+            <img src="/resources/hangup.svg" onclick="hangup()" id="hangup" alt="Hang Up"></img>
+
+        </div>
+    </div>
+
+    <script src ="./sender.js"></script>
+
+</body>
+</html>
