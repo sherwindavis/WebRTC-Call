@@ -21,7 +21,6 @@ function closeFullscreen() {
     document.msExitFullscreen();
   }
 }
-openFullscreen();
 
 
 const webSocket = new WebSocket("")
