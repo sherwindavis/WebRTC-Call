@@ -6,8 +6,9 @@ body{
 }
 #git{
   position: absolute;
-  bottom:2vw;
-  right:2vw;
+  bottom:0.5vw;
+  right:0.5vw;
+  opacity: 0.3;
   width: 30px;
   cursor: pointer;
 }
@@ -49,28 +50,50 @@ display:none;
 #local-video{
     position: absolute;
     bottom: 12vh;
-    left: 1vh;
+    left: 1vw;
     border-radius: 2vh;
     background-image: url("./resources/account_circle_white_48dp.svg");
-    background-color: #121212;
+    background-color: rgb(48, 48, 48);
     background-repeat:no-repeat;
     background-position: center center;
+    background-size: 3vh;
     max-height: 20vh;
     max-width: 20vw;
 }
+
 #remote-video{
     
     background-image: url("./resources/account_circle_white_48dp.svg");
     background-color: #121212;
     background-repeat:no-repeat;
+    background-size: 10vh;
     background-position: center center;
     width: 100vw;
     height: 90vh;
     
 }
-#muteaudio,#cam,#hangup{
+#muteaudio,#cam,#hangup,#chat,#screenshare{
   cursor: pointer;
-  height: 6vh;
+  height: 5vh;
+}
+#chatbar{
+  position: inherit;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(75, 75, 75);
+  top: 0vh;
+  right: 0vw;
+  height: 100vh;
+  width: 30vw;
+  transition: 0.5s;
+  display: none;
+}
+#boxy{
+  position: absolute;
+  top:25vh;
+  width:5vh;
+  height :5vh;
+  background-color: rebeccapurple;
 }
 .call-action-div{
     position: absolute;
@@ -78,11 +101,12 @@ display:none;
     justify-content: center;
     align-items: center;
     gap:2vw;
-    left: 0%;
-    bottom: 0%;
+    left: 0;
+    bottom: 0;
     width: 100vw;
     height: 10vh;
     background-color: rgb(48, 48, 48);
+    transition: 0.5s;
 }
 
 #username-input,input[type=text]:focus{
@@ -166,7 +190,13 @@ font-size: 0.8rem;
   .call-action-div{
     justify-content: space-evenly;
   }
+  #chatbar{
+    top: 0vh;
+    width: 100vw;
+  }
 }
+
+
 #signin{
     font-size: 1.5rem;
     font-family:NF;

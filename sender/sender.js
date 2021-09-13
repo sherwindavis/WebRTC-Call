@@ -29,3 +29,13 @@ navigator.getUserMedia({
     console.log(error)
 })
 }
+function chat(){
+    if (document.getElementById("chatbar").style.display=="inline"){
+        document.getElementById("chatbar").style.display="none";
+        document.getElementById("callactiondiv").style.width="100vw";
+    }
+    else{
+        document.getElementById("chatbar").style.display="inline";
+        document.getElementById("callactiondiv").style.width="70vw";
+    }
+}
