@@ -5,30 +5,36 @@ webSocket.onmessage=(event)=>{
 }
 function handlesignallingdata(data){
     switch(data.type){
-        case"answer":
-            peerConn.setRemoteDesciption(data.answer)
+        case"offer":
+            peerConn.setRemoteDesciption(data.offer)
+            createAndSendAnswer()
             break
         case"candidate":
         peerConn.addIceCandidate(data.candidate)
     }
 
 }
-
-
-function sendusername(){
-    username = document.getElementById("username-input").value
-    sendData({
-        type:"store_user",
-    })
+function createAndSendAnswer(){
+    peerConn.createAnswer((answer)=>{
+        peerConn.setLocalDescription(answer)
+        sendData({
+            type:"send_answer",
+            answer:answer
+        })
+    },error=>{console.log(error)})
 }
+
+
 function sendData(data){
     data.username=username;
     webSocket.send(JSON.stringify(data))
 
 }
 let localStream
-
-function startCall(){
+let peerConn
+let username
+function joinCall(){
+    username=document.getElementById("username-input").value;
 document.getElementById("video-call-div").style.display="inline";
 navigator.getUserMedia({
     video:{
@@ -63,28 +69,22 @@ navigator.getUserMedia({
         if(e.candidate==null)
             return
         sendData({
-            type:"store_candidate",
+            type:"send_candidate",
             candidate:e.candidate
         })
     
     })
-    createAndSendOffer()
+
+    sendData({
+        type:"join-call"
+    })
 
 },(error)=>{
     console.log(error)
 })
 }
 
-function createAndSendOffer(){
-peerConn.createOffer((offer) => {
-    sendData({
-        type:"store_offer",
-        offer: offer
-    })
-    peerConn.setLocalDescription(offer)
-},(error)=>{console.log(error)
-})
-}
+
 
 function chat(){
     if (document.getElementById("chatbar").style.display=="inline"){
