@@ -1,33 +1,36 @@
 const webSocket = new WebSocket("wss://dfb0-103-211-52-126.ngrok.io")
 
-webSocket.onmessage=(event)=>{
-    handlesignallingdata(JSON.parse(event.data))
+webSocket.onmessage = (event) => {
+    handleSignallingData(JSON.parse(event.data))
 }
-function handlesignallingdata(data){
-    switch(data.type){
-        case"answer":
-            peerConn.setRemoteDesciption(data.answer)
+
+function handleSignallingData(data) {
+    switch (data.type) {
+        case "answer":
+            peerConn.setRemoteDescription(data.answer)
             break
-        case"candidate":
-        peerConn.addIceCandidate(data.candidate)
+        case "candidate":
+            peerConn.addIceCandidate(data.candidate)
     }
-
 }
 
+let username
+function sendUsername() {
 
-function sendusername(){
     username = document.getElementById("username-input").value
     sendData({
-        type:"store_user",
+        type: "store_user"
     })
 }
-function sendData(data){
-    data.username=username;
+
+function sendData(data) {
+    data.username = username
     webSocket.send(JSON.stringify(data))
-
 }
-let localStream
 
+
+let localStream
+let peerConn
 function startCall() {
     document.getElementById("video-call-div")
     .style.display = "inline"
@@ -78,17 +81,30 @@ function startCall() {
     })
 }
 
-function createAndSendOffer(){
-peerConn.createOffer((offer) => {
-    sendData({
-        type:"store_offer",
-        offer: offer
+function createAndSendOffer() {
+    peerConn.createOffer((offer) => {
+        sendData({
+            type: "store_offer",
+            offer: offer
+        })
+
+        peerConn.setLocalDescription(offer)
+    }, (error) => {
+        console.log(error)
     })
-    peerConn.setLocalDescription(offer)
-},(error)=>{console.log(error)
-})
 }
 
+let isAudio = true
+function muteAudio() {
+    isAudio = !isAudio
+    localStream.getAudioTracks()[0].enabled = isAudio
+}
+
+let isVideo = true
+function muteVideo() {
+    isVideo = !isVideo
+    localStream.getVideoTracks()[0].enabled = isVideo
+}
 function chat(){
     if (document.getElementById("chatbar").style.display=="inline"){
         document.getElementById("chatbar").style.display="none";
@@ -98,15 +114,4 @@ function chat(){
         document.getElementById("chatbar").style.display="inline";
         document.getElementById("callactiondiv").style.width="70vw";
     }
-}
-let isAudio=true;
-function muteaudio(){
-isAudio=!isAudio;
-localStream.getAudioTracks()[0].enabled=isAudio
-}
-let isVideo=true
-function mutevideo(){
-    isVideo=!isVideo;
-localStream.getVideoTracks()[0].enabled=isVideo
-
 }
