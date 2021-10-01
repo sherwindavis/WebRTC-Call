@@ -1,4 +1,4 @@
-const webSocket = new WebSocket("https://dfb0-103-211-52-126.ngrok.io")
+const webSocket = new WebSocket("wss://dfb0-103-211-52-126.ngrok.io")
 
 webSocket.onmessage=(event)=>{
     handlesignallingdata(JSON.parse(event.data))
