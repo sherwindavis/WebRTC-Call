@@ -64,7 +64,7 @@ navigator.getUserMedia({
             }
         ]
     }
-    peerConn=new RTCPeerConnection()
+    peerConn=new RTCPeerConnection(configuration)
     peerConn.addStream(localStream)
     peerConn.onaddstream=(e)=>{
         document.getElementById("remote-video")
