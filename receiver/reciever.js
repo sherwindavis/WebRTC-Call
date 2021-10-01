@@ -1,4 +1,4 @@
-const webSocket = new WebSocket("ws://192.168.1.40:3000")
+const webSocket = new WebSocket("https://dfb0-103-211-52-126.ngrok.io)
 
 navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
