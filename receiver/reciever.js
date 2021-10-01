@@ -4,7 +4,6 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
-const webSocket = new WebSocket("ws://SERVER-IP-HERE:3000")
 
 webSocket.onmessage = (event) => {
     handleSignallingData(JSON.parse(event.data))
