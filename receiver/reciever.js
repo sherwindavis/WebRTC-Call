@@ -1,5 +1,10 @@
 const webSocket = new WebSocket("ws://192.168.1.40:3000")
 
+navigator.getUserMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+
 webSocket.onmessage=(event)=>{
     handlesignallingdata(JSON.parse(event.data))
 }
@@ -33,6 +38,7 @@ function sendData(data){
 let localStream
 let peerConn
 let username
+
 function joinCall(){
     username=document.getElementById("username-input").value;
 document.getElementById("video-call-div").style.display="inline";
@@ -96,12 +102,12 @@ function chat(){
         document.getElementById("callactiondiv").style.width="70vw";
     }
 }
-let isAudio=True;
+let isAudio= true
 function muteaudio(){
 isAudio=!isAudio;
 localStream.getAudioTracks()[0].enabled=isAudio
 }
-let isVideo=True
+let isVideo=true
 function mutevideo(){
     isVideo=!isVideo;
 localStream.getVideoTracks()[0].enabled=isVideo
