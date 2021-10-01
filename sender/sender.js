@@ -15,7 +15,7 @@ function handleSignallingData(data) {
 }
 
 let username
-function sendUsername() {
+function sendusername() {
 
     username = document.getElementById("username-input").value
     sendData({
