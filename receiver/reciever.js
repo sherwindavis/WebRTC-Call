@@ -1,4 +1,4 @@
-const webSocket = new WebSocket("wss://dfb0-103-211-52-126.ngrok.io")
+const webSocket = new WebSocket("wss://web-rtc-call-app.herokuapp.com/")
 
 navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
