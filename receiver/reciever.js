@@ -5,53 +5,63 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-webSocket.onmessage=(event)=>{
-    handlesignallingdata(JSON.parse(event.data))
-}
-function handlesignallingdata(data){
-    switch(data.type){
-        case"offer":
-            peerConn.setRemoteDesciption(data.offer)
-            createAndSendAnswer()
-            break
-        case"candidate":
-        peerConn.addIceCandidate(data.candidate)
-    }
-
-}
-function createAndSendAnswer(){
-    peerConn.createAnswer((answer)=>{
-        peerConn.setLocalDescription(answer)
-        sendData({
-            type:"send_answer",
-            answer:answer
-        })
-    },error=>{console.log(error)})
-}
-
-
-function sendData(data){
-    data.username=username;
-    webSocket.send(JSON.stringify(data))
-
-}
-let localStream
-let peerConn
-let username
-
-function joinCall(){
-    username=document.getElementById("username-input").value;
-document.getElementById("video-call-div").style.display="inline";
-navigator.getUserMedia({
-    video:{
-        frameRate:30,
-        width:{
-            min:480,ideal:720,max:1280
-        }
-    },
-    audio: true
-}, (stream)=>{
-    document.getElementById("local-video").srcObject=stream
+                       webSocket.onmessage = (event) => {
+                        handleSignallingData(JSON.parse(event.data))
+                    }
+                    
+                    function handleSignallingData(data) {
+                        switch (data.type) {
+                            case "offer":
+                                peerConn.setRemoteDescription(data.offer)
+                                createAndSendAnswer()
+                                break
+                            case "candidate":
+                                peerConn.addIceCandidate(data.candidate)
+                        }
+                    }
+                    
+                    function createAndSendAnswer () {
+                        peerConn.createAnswer((answer) => {
+                            peerConn.setLocalDescription(answer)
+                            sendData({
+                                type: "send_answer",
+                                answer: answer
+                            })
+                        }, error => {
+                            console.log(error)
+                        })
+                    }
+                    
+                    function sendData(data) {
+                        data.username = username
+                        webSocket.send(JSON.stringify(data))
+                    }
+                    
+                    
+                    let localStream
+                    let peerConn
+                    let username
+                    
+                    function joinCall() {
+                    
+                        username = document.getElementById("username-input").value
+                    
+                        document.getElementById("video-call-div")
+                        .style.display = "inline"
+                    
+                        navigator.getUserMedia({
+                            video: {
+                                frameRate: 24,
+                                width: {
+                                    min: 480, ideal: 720, max: 1280
+                                },
+                                aspectRatio: 1.33333
+                            },
+                            audio: true
+                        }, (stream) => {
+                            localStream = stream
+                            document.getElementById("local-video").srcObject = localStream
+                    
     let configuration={
         iceservers:[
             {
