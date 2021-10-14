@@ -1,8 +1,22 @@
 var PORT=process.env.PORT || 5000;
 const Socket = require("websocket").server
 const http = require("http")
+const fs=require('fs')
 
-const server = http.createServer((req, res) => {})
+const server = http.createServer(function(req, res) {
+    res.writeHead(200,{'Content-Type':'text/html' })
+    fs.readFile('index.html',function (error,data){
+    if(error){
+    res.writeHead(404)
+    res.write('File not found')
+    }
+    else{
+        res.write(data)
+    }
+    res.end()
+    })  
+})
+console.log(fs)
 
 server.listen(PORT, () => {
     console.log("Listening on port 5000...")

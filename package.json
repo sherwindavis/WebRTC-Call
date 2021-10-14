@@ -1,4 +1,9 @@
 {
+  "name": "webrtc-call-app",
+  "version": "1.0.0",
+  "description": "P2P video calling using WebRTC",
+  "main": "server.js",
+  
   "dependencies": {
     "websocket": "^1.0.34"
   }
