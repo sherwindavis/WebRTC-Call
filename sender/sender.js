@@ -20,6 +20,7 @@ function sendusername(){
     sendData({
         type:"store_user",
     })
+    document.getElementById("btn1").innerHTML='Sent'
 }
 function sendData(data){
     data.username=username;
@@ -29,12 +30,11 @@ function sendData(data){
 let localStream
 
 function startCall() {
-    document.getElementById("video-call-div")
-    .style.display = "inline"
+    document.getElementById("video-call-div").style.display = "inline"
 
     navigator.getUserMedia({
         video: {
-            frameRate: 24,
+            frameRate: 30,
             width: {
                 min: 480, ideal: 720, max: 1280
             },
@@ -103,10 +103,24 @@ let isAudio=true;
 function muteaudio(){
 isAudio=!isAudio;
 localStream.getAudioTracks()[0].enabled=isAudio
+if(isAudio==true){
+    document.getElementById("muteaudio").src="../resources/mute.svg";
+}
+else{
+    document.getElementById("muteaudio").src="../resources/unmute.svg";
+}
 }
 let isVideo=true
 function mutevideo(){
     isVideo=!isVideo;
 localStream.getVideoTracks()[0].enabled=isVideo
-
+if(isVideo==true){
+    document.getElementById("cam").src="../resources/cam.svg";
+}
+else{
+    document.getElementById("cam").src="../resources/camdisable.svg";
+}
+}
+function hangup(){
+    window.open("../index.html","_self");
 }

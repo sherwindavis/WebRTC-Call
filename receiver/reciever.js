@@ -114,12 +114,27 @@ function chat(){
 }
 let isAudio= true
 function muteaudio(){
-isAudio=!isAudio;
-localStream.getAudioTracks()[0].enabled=isAudio
-}
+    isAudio=!isAudio;
+    localStream.getAudioTracks()[0].enabled=isAudio
+    if(isAudio==true){
+        document.getElementById("muteaudio").src="../resources/mute.svg";
+    }
+    else{
+        document.getElementById("muteaudio").src="../resources/unmute.svg";
+    }
+    }
+
 let isVideo=true
 function mutevideo(){
     isVideo=!isVideo;
 localStream.getVideoTracks()[0].enabled=isVideo
-
+if(isVideo==true){
+    document.getElementById("cam").src="../resources/cam.svg";
+}
+else{
+    document.getElementById("cam").src="../resources/camdisable.svg";
+}
+}
+function hangup(){
+    window.open("../index.html","_self");
 }
