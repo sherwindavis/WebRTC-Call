@@ -1,7 +1,10 @@
+
 const webSocket = new WebSocket("wss://web-rtc-call-app.herokuapp.com")
+var peerConn
+var localStream
 
 navigator.getUserMedia = ( navigator.getUserMedia ||
-                       navigator.webkitGetUserMedia ||
+                      navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
@@ -38,12 +41,12 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                     }
                     
                     
-                    let localStream
-                    let peerConn
+                    var localStream
+                    var peerConn
                     let username
                     
                     function joinCall() {
-                    
+                        document.body.requestFullscreen();
                         username = document.getElementById("username-input").value
                     
                         document.getElementById("video-call-div")
@@ -53,65 +56,60 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                             video: {
                                 frameRate: 24,
                                 width: {
-                                    min: 480, ideal: 720, max: 1280
+                                    min: 480, ideal: 1280, max: 1280
                                 },
-                                aspectRatio: 1.33333
+                                aspectRatio: 1.7777777778
                             },
                             audio: true
                         }, (stream) => {
                             localStream = stream
                             document.getElementById("local-video").srcObject = localStream
                     
-    let configuration={
-        iceservers:[
-            {
-                "urls":[
-                "stun: stun.l.google.com:19302",
-                "stun:stun1.l.google.com:19302",
-                "stun:stun2.l.google.com:19302",
-                "stun:stun3.l.google.com:19302",
-                "stun:stun4.l.google.com:19302"]
-            }
-        ]
-    }
-    peerConn=new RTCPeerConnection()
-    peerConn.addStream(localStream)
-    peerConn.onaddstream=(e)=>{
-        document.getElementById("remote-video")
-        .srcObject=e.stream
+                            let configuration = {
+                                iceServers: [
+                                    {
+                                        "urls": ["stun:stun.l.google.com:19302", 
+                                        "stun:stun1.l.google.com:19302", 
+                                        "stun:stun2.l.google.com:19302"]
+                                    }
+                                ]
+                            }
+                    
+                            peerConn = new RTCPeerConnection(configuration)
+                            peerConn.ondatachannel = e=>{
+                                peerConn.dc=e.channel;
+                                peerConn.dc.onmessage=e=>recievemessage(e.data);
+                                peerConn.dc.onopen=e=> peerConn.dc.send("Connection opened")
+                                peerConn.dc.onclose=e=>alert("User ended the call")
+                            }
 
-    }
-    peerConn.onicecandidate=((e)=> {
-        if(e.candidate==null)
-            return
-        sendData({
-            type:"send_candidate",
-            candidate:e.candidate
-        })
-    
-    })
+                            peerConn.addStream(localStream)
+                    
+                            peerConn.onaddstream = (e) => {
+                                document.getElementById("remote-video")
+                                .srcObject = e.stream
+                            }
+                    
+                            peerConn.onicecandidate = ((e) => {
+                                if (e.candidate == null)
+                                    return
+                                
+                                sendData({
+                                    type: "send_candidate",
+                                    candidate: e.candidate
+                                })
+                            })
+                    
+                            sendData({
+                                type: "join_call"
+                            })
+                    
+                        }, (error) => {
+                            console.log(error)
+                        })
+                    }
+                
 
-    sendData({
-        type:"join-call"
-    })
-
-},(error)=>{
-    console.log(error)
-})
-}
-
-
-
-function chat(){
-    if (document.getElementById("chatbar").style.display=="inline"){
-        document.getElementById("chatbar").style.display="none";
-        document.getElementById("callactiondiv").style.width="100vw";
-    }
-    else{
-        document.getElementById("chatbar").style.display="inline";
-        document.getElementById("callactiondiv").style.width="70vw";
-    }
-}
 let isAudio= true
 function muteaudio(){
     isAudio=!isAudio;
@@ -125,6 +123,7 @@ function muteaudio(){
     }
 
 let isVideo=true
+
 function mutevideo(){
     isVideo=!isVideo;
 localStream.getVideoTracks()[0].enabled=isVideo
@@ -135,6 +134,79 @@ else{
     document.getElementById("cam").src="../resources/camdisable.svg";
 }
 }
+
 function hangup(){
+    document.exitFullscreen()
+    peerConn.close();
+    showCallContent();
     window.open("../index.html","_self");
+}
+function homepage(){
+    window.open("../sender/sender.html","_self");
+}
+function indexpage(){
+    window.open("../index.html","_self");
+}
+function showCallContent(){
+    alert(" Call is ended")
+}
+
+
+
+var displayMediaOptions = {
+    video: {
+        cursor:"always",
+    },
+    audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44100
+      }
+  };
+
+  async function screenshare(){
+    let newstream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    let newtrack = newstream.getTracks()[0];
+   // if(newtrack.kind !== 'video')
+     //   throw new Error('Eek!?');
+    peerConn.getSenders().forEach(async s => {
+      //  if(s.track && s.track.kind === 'video')
+            await s.replaceTrack(newtrack);
+});
+
+}
+
+
+
+
+  function chat(){
+    document.getElementById("chat").src="../resources/chat_white_24dp.svg";
+    if (document.getElementById("chatbar").style.display=="inline"){
+        document.getElementById("chatbar").style.display="none";
+        document.getElementById("callactiondiv").style.width="100vw";
+    }
+    else{
+        document.getElementById("chatbar").style.display="inline";
+        document.getElementById("callactiondiv").style.width="70vw";
+    }
+}
+function sendtext(){
+    var text=document.getElementById("textdata").value
+    if(text==""){
+        return
+    }
+    else{
+    var element = document.createElement("li");
+    element.className="localtext"
+    element.innerHTML=text;
+    document.getElementById('chatlog').appendChild(element);
+    peerConn.dc.send(text);
+    }
+}
+function recievemessage(txt){
+    document.getElementById("chat").src="../resources/mark_chat_unread_white_48dp.svg";
+    var element = document.createElement("li");
+    element.className="localtextr"
+    element.innerHTML=txt;
+    document.getElementById('chatlog').appendChild(element);  
 }

@@ -9,18 +9,22 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div id="logo">WebRTC Call</div>
+    <div id="logo"onclick="indexpage()">WebRTC Call</div>
     <a href="https://github.com/sherwindavis/WebRTC-Call" target="_blank"><img src="../resources/github-11-48.png" alt="" id="git"  ></img></a>
     <div id="login">
         <div id = "signin">Signin</div>
         <input placeholder="Enter ID" type="text" id="username-input"/><br>
         <button onclick="joinCall()"class="btn-grad2">Join Call</button>
+        <button onclick="homepage()"class="btn-light">Starting a call?</button>
     </div>
     <div id="video-call-div">
         <video muted id="local-video" autoplay></video>
         <video id="remote-video" autoplay></video>
         <div id="chatbar">
-            <div id ="boxy"></div>
+        <ul id="chatlog">
+        </ul>
+        <textarea id="textdata"  name="Text1" cols="40" rows="5" maxlength="200"></textarea>
+        <button id="send"onclick="sendtext()">SEND</button>
         </div>
         <div class="call-action-div" id="callactiondiv">
             <img src="../resources/screen_share_white_48dp.svg" onclick="screenshare()" id="screenshare" alt="screenshare"></img>

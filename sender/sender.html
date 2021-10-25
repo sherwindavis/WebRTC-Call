@@ -10,19 +10,21 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div id="logo">WebRTC Call</div>
+    <div id="logo"onclick="indexpage()">WebRTC Call</div>
     <a href="https://github.com/sherwindavis/WebRTC-Call" target="_blank"><img src="../resources/github-11-48.png" alt="" id="git"  ></img></a>
     <div id="login">
         <div id = "signin">Signin</div>
         <input placeholder="Enter ID" type="text" id="username-input"/><br>
-        <button onclick="sendusername()" id="btn1" class="btn-grad">Send</button>
-        <button onclick="startCall()"class="btn-grad2">Start Call</button>
+        <button onclick="sendUsername()"class="btn-grad">Start Call</button>
+        <button onclick="homepage()"class="btn-light">Joining a call?</button>
     </div>
     <div id="video-call-div">
-        <video muted id="local-video" autoplay></video>
-        <video id="remote-video" autoplay></video>
+        <video muted id="local-video" playsinline autoplay></video>
+        <video id="remote-video" playsinline autoplay></video>
         <div id="chatbar">
-            <div id ="boxy"></div>
+            <ul id="chatlog"></ul>
+            <textarea id="textdata" name="Text1" cols="40" rows="5" maxlength="200"></textarea>
+            <button id="send"onclick="sendtext()">SEND</button>
         </div>
         <div class="call-action-div" id="callactiondiv">
             <img src="../resources/screen_share_white_48dp.svg" onclick="screenshare()" id="screenshare" alt="screenshare"></img>
