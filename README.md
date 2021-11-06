@@ -2,4 +2,4 @@
 
 P2P Video Calling using WebRTC
 
-https://sherwindavis.github.io/WebRTC-Call/index.html
+https://web-rtc-call-app.herokuapp.com/
