@@ -86,8 +86,7 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                             peerConn.addStream(localStream)
                     
                             peerConn.onaddstream = (e) => {
-                                document.getElementById("remote-video")
-                                .srcObject = e.stream
+                                document.getElementById("remote-video").srcObject = e.stream
                             }
                     
                             peerConn.onicecandidate = ((e) => {
@@ -163,17 +162,24 @@ var displayMediaOptions = {
         sampleRate: 44100
       }
   };
-
+  let isShare= false
   async function screenshare(){
-    let newstream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-    let newtrack = newstream.getTracks()[0];
-   // if(newtrack.kind !== 'video')
-     //   throw new Error('Eek!?');
-    peerConn.getSenders().forEach(async s => {
-      //  if(s.track && s.track.kind === 'video')
-            await s.replaceTrack(newtrack);
-});
-
+    let newstream
+    let newtrack
+    if(isShare==false){
+    newstream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    newtrack = newstream.getTracks()[0];
+    peerConn.getSenders().forEach(async s => { await s.replaceTrack(newtrack);});
+    document.getElementById("local-video").srcObject = newstream
+    isShare=true
+    }
+    else{
+    peerConn.getSenders().forEach(track => track.stop());
+    let newtracks= localStream.getTracks()[0];
+    peerConn.getSenders().forEach(async s => { await s.replaceTrack(newtracks);});
+    document.getElementById("local-video").srcObject = localStream
+    isShare=false
+    }
 }
 
 

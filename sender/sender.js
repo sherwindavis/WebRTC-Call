@@ -164,12 +164,8 @@ var displayMediaOptions = {
   async function screenshare(){
     let newstream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
     let newtrack = newstream.getTracks()[0];
-   // if(newtrack.kind !== 'video')
-     //   throw new Error('Eek!?');
-    peerConn.getSenders().forEach(async s => {
-       // if(s.track && s.track.kind === 'video')
-            await s.replaceTrack(newtrack);
-});
+    peerConn.getSenders().forEach(async s => {await s.replaceTrack(newtrack);});
+    document.getElementById("local-video").srcObject = newstream
 
 }
 
